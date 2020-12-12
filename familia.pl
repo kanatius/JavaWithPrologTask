@@ -18,18 +18,23 @@ filha(X,Y) :- progenitor(Y,X),mulher(X).
 
 mae(X,Y) :- progenitor(X,Y),mulher(X).
 
-irmao(X,Y) :- progenitor(Z,X),progenitor(Z,Y),homem(X),X\==Y.
+/* X e Y devem ser diferentes para que irmao(X,X) ou irma(X,X) não dê true*/
+irmao(X,Y) :- progenitor(Z,X),progenitor(Z,Y),homem(X),X\==Y. 
 irma(X,Y) :- progenitor(Z,X),progenitor(Z,Y),mulher(X),X\==Y.
 
-
-tio(X,Z) :- irmao(X,Y),progenitor(Y,Z),homem(X).
-tia(X,Z) :- irmao(X,Y),progenitor(Y,Z),mulher(X).
+/*tio deve ser irmao do progenitor de Z*/
+tio(X,Z) :- irmao(X,Y),progenitor(Y,Z).
+/*tia deve ser irmã do progenitor de Z*/
+tia(X,Z) :- irma(X,Y),progenitor(Y,Z).
 
 
 avo(X,Y) :- progenitor(X,Z),progenitor(Z,Y).
-neto(X,Z) :- avo(Z,X),homem(X).
-neta(X,Z) :- avo(Z,X),mulher(X).
 
+/*é neto de Z quando Z é avo de X e X é homem*/
+neto(X,Z) :- avo(Z,X),homem(X).
+
+/*é neto de Z quando Z é avo de X e X é mulher*/
+neta(X,Z) :- avo(Z,X),mulher(X).
 
 
 ancestral(X,Z) :- progenitor(X,Z).
