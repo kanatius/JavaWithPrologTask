@@ -24,11 +24,18 @@ irma(X,Y) :- progenitor(Z,X),progenitor(Z,Y),mulher(X),X\==Y.
 
 /*tio deve ser irmao do progenitor de Z*/
 tio(X,Z) :- irmao(X,Y),progenitor(Y,Z).
+
 /*tia deve ser irmã do progenitor de Z*/
 tia(X,Z) :- irma(X,Y),progenitor(Y,Z).
 
 
+sobrinho(X,Y) :- (tio(Y,X);tia(Y,X)),homem(X).
+sobrinha(X,Y) :- (tio(Y,X);tia(Y,X)),mulher(X).
+
+
 avo(X,Y) :- progenitor(X,Z),progenitor(Z,Y).
+
+bisavo(X,Y) :- progenitor(X,Z),avo(Z,Y).
 
 /*é neto de Z quando Z é avo de X e X é homem*/
 neto(X,Z) :- avo(Z,X),homem(X).
